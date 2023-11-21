@@ -1,0 +1,217 @@
+---
+title: "Vorlesung"
+subtitle: "Einführung in qualitative und quantitative Forschungsmethoden"
+author: "Samuel Merk"
+format: 
+  revealjs:
+    auto-stretch: false
+    self-contained: true
+    slide-number: false
+    preview-links: false
+    controls: true
+    logo: img/PHlogo.svg
+    theme: [simple, css/custom.scss]
+    fullscreen: true
+    pdfexport: true
+bibliography: references.bib
+csl: apa.csl
+---
+
+## Heutige Sitzung {.center}
+[{{< fa person-digging >}}]{.imp} Job-Alert
+
+[{{< fa gauge-high >}}]{.imp} Aktivierung Vorwissen: Schätzaufgaben
+
+[{{< fa arrow-down >}}]{.imp} Vertiefungsaufgaben zu Verteilungen
+
+[{{< fa chart-line >}}]{.imp} Verteilungsdarstellungen in der Lernverlaufsdiagnostik
+
+[{{< fa pencil >}}]{.imp} Verteilungen mit Software darstellen
+
+[{{< fa down-long >}}]{.imp} Vertiefung: Normalverteilung  
+
+```{r hidden chunk which creates template stuff}
+#| echo: false
+
+## in terminal ########
+# quarto install extension quarto-ext/fontawesome
+# quarto install extension schochastics/academicons
+#
+
+########################
+library(fontawesome)
+library(tidyverse)
+
+# Change css to lecker PH green
+if(!dir.exists("img"))
+dir.create("img")
+if(!dir.exists("css"))
+dir.create("css")
+fileConn<-file("css/custom.scss")
+writeLines(c("/*-- scss:defaults --*/",
+             "$link-color: #8cd000 !default;"), fileConn)
+close(fileConn)
+
+# create sash with URL
+sash <- 
+  ggplot() + 
+  geom_polygon(data = tibble(x = c(0,4,5.5,0),
+                             y = c(1,5,5,-.5)),
+               aes(x,y), fill = "#8cd000") + 
+  coord_fixed() +
+  annotate(geom = "text", 
+           label = " ", 
+           x = .8, y = .8, 
+           angle = 45,
+           hjust = 0, vjust = 0,
+           size = 10,
+           color = "white") +
+ theme_void() + 
+ theme(plot.margin = margin(-2,0,0,-12, unit = "cm"))
+ggsave("img/sash.svg", sash)
+```
+
+```{css}
+.callout-title {background-color: #8cd000 !important;}
+
+.imp {
+  color: #8cd000;
+}
+
+
+figure>figcaption {
+    margin-top: 0.5em;
+    text-align: center;
+}
+
+.citation {
+  font-size: .8em;
+  color: #8cd000;
+}
+  
+```
+
+## 
+:::{.callout-note collapse=false appearance='default' icon=false}
+
+## {{< fa person-digging >}} Job-Alert
+[Unser Institut sucht zwei Hilfskräfte!]{.imp}  
+Typische Hilfskrafttätigkeiten zur Forschungs- und/oder Lehrunterstützung im Umfang von mindestens 12h pro Monat.
+Tolles Team [{{< fa people-group >}}]{.imp}, guter Kaffe [{{< fa mug-hot >}}]{.imp} und beste Kontakte für Bachelorarbeiten/Masterarbeiten [{{< fa handshake >}}]{.imp} inklusive.  
+Sprechen Sie mich bei Interesse an oder schreiben Sie mir eine Email!
+:::
+
+## Schätzaufgaben {{< fa gauge-high >}}{.center}
+> Bearbeiten Sie die Schätzaufgaben auf moodle (mindestens drei Schätzungen je Aufgabe je Person)
+
+## Vertiefungsaufgabe 1 {.smaller}
+Welche der folgenden Statistiken ist in welcher Plotart a) direkt enkodiert, b) abschätzbar oder c) weder direkt enkodiert noch abschätzbar?
+
+|              | Mittelwert | Median | Schiefe | Modalität | Stichprobengröße |
+|--------------|------------|--------|---------|-----------|------------------|
+| Histogramm   |            |        |         |           |                  |
+| Dotplot      |            |        |         |           |                  |
+| Densityplot  |            |        |         |           |                  |
+| Violinplot   |            |        |         |           |                  |
+| Errorbarplot |            |        |         |           |                  |
+| Jitterplot   |            |        |         |           |                  |
+| Boxplot      |            |        |         |           |                  |
+| Sinaplot     |            |        |         |           |                  |
+
+
+## Vertiefungsaufgabe 2 {.scrollable .smaller .center}
+In Lernverlaufsdiagnostiksystemen wie [www.quop.de](www.quop.de), [www.levumi.de](www.levumi.de), [www.mindsteps.ch](www.mindsteps.ch) oder [www.lernlinie.de](www.lernlinie.de) finden sich oft Ergebnisdarstellungen wie die folgende:
+
+:::: {.columns}
+
+::: {.column width='40%'}
+<br> <br> <br> 
+![](img/Lernverlauf.png){width="99%"}
+:::
+
+::: {.column width='60%'}
+Welche Aussagen dazu sind wahr?
+
+* Die Ergebnisdarstellung erlaubt die Anwendung aller drei Bezugsnormen
+* Die Verteilung der Variable zu Messzeitpunkt 6 ist linksschief
+* Zu Messzeitpunkt 8 liegen Median und arithmetisches Mittel nicht aufeinander
+* Für die Anwendung der individuellen Bezugsnorm müssen die Aufgaben zu allen Messzeitpunkten gleich schwierig sein
+:::
+
+::::
+
+
+## Vertiefungsaufgabe 3 {.scrollable .smaller .center}
+In Rückmeldungen aus VERA 3 und VERA 8 finden sich oft Ergebnisdarstellungen wie die folgende:
+
+:::: {.columns}
+
+::: {.column width='40%'}
+<br> <br> <br> 
+![](img/VERA_Klassenrückmeldung.png){width="99%"}
+:::
+
+::: {.column width='60%'}
+Welche Aussagen dazu sind wahr?
+
+* Die Ergebnisdarstellung erlaubt die Anwendung aller drei Bezugsnormen
+* Die Verteilung der Lösungswahrscheinlichkeiten von Aufgabe 3 rechtsschief
+* Die »eigene Klasse« unterscheidet sich vom Land am stärksten in Aufgabe 1
+* Die Aufgaben sind recht unterschiedlich schwierig
+:::
+
+::::
+
+
+
+## Verteilungsbeschreibung mit Software (jamovi, JASP)
+```{r}
+#| eval: false
+library(tidyverse)
+source("https://soscisurvey.ph-karlsruhe.de/FOME23/?act=kgcQZxRcN5int46JCEkJYbDm&rScript")
+
+data_verteilungsbeschreibung <- ds |> 
+  mutate(NC_ABI = as.numeric(AS02_01),
+         Notenpunkte_Matheabi = as.numeric(AS03_16),
+         Ausfuelldauer = TIME_SUM) |> 
+  rowwise() |> 
+  mutate(Procastrination = mean(PC01_01, PC01_02, PC01_03, PC01_04, PC01_05, 
+                                PC01_06, PC01_07, PC01_08, PC01_09)) |> 
+  ungroup() |> 
+  select(NC_ABI, Notenpunkte_Matheabi, Ausfuelldauer, Procastrination)
+         
+haven::write_sav(data_verteilungsbeschreibung, "data_verteilungsbeschreibung.sav")
+```
+
+
+## Vertiefung Normalverteilung {.smaller .center}
+::: {.incremental}
+* Viele Größen kommen in der Natur normalverteilt vor [@mcelreath2020]
+* »Normalverteilt« bedeutet, die Wahrscheinlichkeitsdichte folgt der Funktion $f(x)=\frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}$
+* [Dieser interaktiven Darstellung {{< fa square-up-right >}}](https://www.geogebra.org/m/uRcrDyKj){preview-link="true"} kann entnommen werden, dass $\mu$ dem arithmetischen Mittel/Median/Modus entspricht und $\sigma$ der Standardabweichung
+* Das [»Galtonboard« {{< fa square-up-right >}}](https://www.youtube.com/embed/TwctT3Ncm1w){preview-link="true"} kann als konzeptuelle Erklärung dafür dienen, warum die "Addition vieler unabhägiger Zufälle" zu einer Vornalverteilung führt (zentraler Grenzwertsatz) 
+:::
+
+. . .
+
+> [{{< fa comments >}}]{.imp} Warum sind Schulnoten oft nicht normalverteilt, wissenschaftlich entwickelte Leistungs- und Fähigkeitstests aber schon?
+
+
+## Ihre Fragen zur Verteilungsbeschreibung {.smaller}
+
+Bitte stellen Sie unter [https://bit.ly/merk121 {{< fa square-up-right >}}](https://bit.ly/merk121) Ihre Fragen zu den Verteilungen aus Video und Aufgaben.<br><br>
+```{r, out.width="70%", fig.align='center', echo = F, message = F}
+library(qrencoder)
+par(mar=c(0,0,0,0))
+image(qrencode_raster("https://bit.ly/merk121"),
+      asp=1, col=c("#00000000", "#267326"), axes=FALSE,
+      xlab="", ylab="", bg = 'transparent')
+```
+
+
+
+
+## Literatur
+<style>
+div.callout {border-left-color: #8cd000 !important;
+</style>
