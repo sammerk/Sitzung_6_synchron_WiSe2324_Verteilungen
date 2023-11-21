@@ -164,50 +164,6 @@ Welche Aussagen dazu sind wahr?
 
 
 
-## Verteilungsbeschreibung mit Software (jamovi, JASP)
-```{r}
-#| eval: false
-library(tidyverse)
-source("https://soscisurvey.ph-karlsruhe.de/FOME23/?act=kgcQZxRcN5int46JCEkJYbDm&rScript")
-
-data_verteilungsbeschreibung <- ds |> 
-  mutate(NC_ABI = as.numeric(AS02_01),
-         Notenpunkte_Matheabi = as.numeric(AS03_16),
-         Ausfuelldauer = TIME_SUM) |> 
-  rowwise() |> 
-  mutate(Procastrination = mean(PC01_01, PC01_02, PC01_03, PC01_04, PC01_05, 
-                                PC01_06, PC01_07, PC01_08, PC01_09)) |> 
-  ungroup() |> 
-  select(NC_ABI, Notenpunkte_Matheabi, Ausfuelldauer, Procastrination)
-         
-haven::write_sav(data_verteilungsbeschreibung, "data_verteilungsbeschreibung.sav")
-```
-
-
-## Vertiefung Normalverteilung {.smaller .center}
-::: {.incremental}
-* Viele Größen kommen in der Natur normalverteilt vor [@mcelreath2020]
-* »Normalverteilt« bedeutet, die Wahrscheinlichkeitsdichte folgt der Funktion $f(x)=\frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}$
-* [Dieser interaktiven Darstellung {{< fa square-up-right >}}](https://www.geogebra.org/m/uRcrDyKj){preview-link="true"} kann entnommen werden, dass $\mu$ dem arithmetischen Mittel/Median/Modus entspricht und $\sigma$ der Standardabweichung
-* Das [»Galtonboard« {{< fa square-up-right >}}](https://www.youtube.com/embed/TwctT3Ncm1w){preview-link="true"} kann als konzeptuelle Erklärung dafür dienen, warum die "Addition vieler unabhägiger Zufälle" zu einer Vornalverteilung führt (zentraler Grenzwertsatz) 
-:::
-
-. . .
-
-> [{{< fa comments >}}]{.imp} Warum sind Schulnoten oft nicht normalverteilt, wissenschaftlich entwickelte Leistungs- und Fähigkeitstests aber schon?
-
-
-## Ihre Fragen zur Verteilungsbeschreibung {.smaller}
-
-Bitte stellen Sie unter [https://bit.ly/merk121 {{< fa square-up-right >}}](https://bit.ly/merk121) Ihre Fragen zu den Verteilungen aus Video und Aufgaben.<br><br>
-```{r, out.width="70%", fig.align='center', echo = F, message = F}
-library(qrencoder)
-par(mar=c(0,0,0,0))
-image(qrencode_raster("https://bit.ly/merk121"),
-      asp=1, col=c("#00000000", "#267326"), axes=FALSE,
-      xlab="", ylab="", bg = 'transparent')
-```
-
 
 
 
